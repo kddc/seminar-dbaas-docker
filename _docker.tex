@@ -91,19 +91,7 @@ Der Docker Daemon (dockerd\footnote{https://docs.docker.com/engine/reference/com
   \caption{Docker Daemon}
 \end{figure}
 
-\paragraph{Pulls the ubuntu image:} Docker Engine checks for the presence of the ubuntu image. If the image already exists locally, Docker Engine uses it for the new container. Otherwise, then Docker Engine pulls it from Docker Hub.
-
-\paragraph{Creates a new container:} Docker uses the image to create a container.
-
-\paragraph{Allocates a filesystem and mounts a read-write layer:} The container is created in the file system and a read-write layer is added to the image.
-
-\paragraph{Allocates a network / bridge interface:} Creates a network interface that allows the Docker container to talk to the local host.
-
-\paragraph{Sets up an IP address:} Finds and attaches an available IP address from a pool.
-
-\paragraph{Executes a process that you specify:} Executes the /bin/bash executable.
-
-\paragraph{Captures and provides application output:} Connects and logs standard input, outputs and errors for you to see how your application is running, because you requested interactive mode.
+\noindent Wird zum Beispiel das Kommando \code{docker run -i -t ubuntu} ausgeführt, checkt die Docker Engine, ob das Ubuntu Image sich bereits auf dem System befindet. Ist das nicht der Fall wird das Image aus der Docker Registry gepullt und auf die Festplatte geladen. Daraus wird der Container erstellt, indem dem Image ein R/W Layer hinzugefügt wird. Danach wird das Netzwerk entsprechend konfiguriert, damit der Docker Container mit dem Host-System kommunizieren kann und dem Container wird eine IP-Adresse zugewiesen, über die der Container erreichbar ist. Zum Schluss werden die definierten Kommandos aus dem Dockerfile ausgeführt und man kann (durch das \code{-i} Flag) über das Terminal mit dem Container interagieren.
 
 % -------------------------
 % ------ Docker API -------
@@ -122,19 +110,19 @@ Der Docker Daemon (dockerd\footnote{https://docs.docker.com/engine/reference/com
 % ------ Docker CLI -------
 % -------------------------
 
-\section{Docker CLI}
-
-Über die Docker CLI kann man den Docker Daemon über die Docker Remote API ansprechen. Hier einige wichtige Befehle:\\
-
-\begin{itemize}
-  \item \code{docker build}
-  \item docker run
-  \item docker build
-  \item docker start
-  \item docker push
-  % \item docker rm CONTAINER_ID
-  % \item docker rmi IMAGE_ID
-  % \item docker images
-  \item docker ps -a
-  \item ...
-\end{itemize}
+% \section{Docker CLI}
+%
+% Über die Docker CLI kann man den Docker Daemon über die Docker Remote API ansprechen. Hier einige wichtige Befehle:\\
+%
+% \begin{itemize}
+%   \item \code{docker build}
+%   \item docker run
+%   \item docker build
+%   \item docker start
+%   \item docker push
+%   % \item docker rm CONTAINER_ID
+%   % \item docker rmi IMAGE_ID
+%   % \item docker images
+%   \item docker ps -a
+%   \item ...
+% \end{itemize}
