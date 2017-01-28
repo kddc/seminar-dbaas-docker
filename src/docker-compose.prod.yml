@@ -1,0 +1,13 @@
+version: '2'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+  web:
+    image: kddc/dbaas_web
+    command: bundle exec rails s -p 80 -b '0.0.0.0'
+    ports:
+      - "80:80"
+    depends_on:
+      - db

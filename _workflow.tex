@@ -1,0 +1,29 @@
+\chapter{Fallbeispiel}
+
+\begin{figure}[!ht]
+  \centering
+  \sourcecode{src/Dockerfile2}
+  \caption{Ein Dockerfile}\label{figure:Dockerfile}
+\end{figure}
+
+Workdir wird mit in container geladen und kann ausgeführt werden, lokal volume sodass man app entwickeln kann
+
+\begin{figure}[!ht]
+  \centering
+  \sourcecode{src/docker-compose.dev.yml}
+  \caption{Docker-Compose Development}\label{figure:docker-compose development}
+\end{figure}
+
+Baut images db und web, db aus iamge, web nach Anleitung aus Dockerfile.
+docker-compose up baut images und spawnt container
+
+docker-compose build, docker push kddc/dbaas_web, docker push kddc/dbaas_db
+pusht neuste container in docker registry.
+
+\begin{figure}[!ht]
+  \centering
+  \sourcecode{src/docker-compose.prod.yml}
+  \caption{Docker-Compose Production}\label{figure:docker-compose production}
+\end{figure}
+
+Auf Server anderes docker-compose script, zieht sich images startet container port 80
