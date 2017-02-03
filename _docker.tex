@@ -41,7 +41,7 @@ Ein Docker Container wird auf Basis eines Docker Images gebaut. Jedes Docker Ima
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.6\textwidth]{images/docker-image.jpg}
+  \includegraphics[width=0.6\textwidth]{images/docker-image.png}
   \caption{Ein Image bestehend aus mehreren übereinandergestapelten Layern \cite{7158965}}
 \end{figure}
 
@@ -49,7 +49,7 @@ Die einzelnen Layer in einem Image sind nur lesbar, können also nicht mehr ver�
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/docker-image-layer-sharing.jpg}
+  \includegraphics[width=1\textwidth]{images/docker-image-layer-sharing.png}
   \caption{Ein Image mit neuem Layer, dass die ursprünglichen Layer mit verwendet \cite{docker:images}}
 \end{figure}
 
@@ -58,7 +58,7 @@ Der Container, der die Datei bearbeitet hat arbeitet danach mit seiner Kopie im 
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/docker-container.jpg}
+  \includegraphics[width=0.8\textwidth]{images/docker-container.png}
   \caption{Ein Container, bestehend aus R/O Image Layern und R/W Container Layer \cite{docker:images}}
 \end{figure}
 
@@ -87,8 +87,8 @@ Der Docker Daemon (dockerd\footnote{https://docs.docker.com/engine/reference/com
 % https://blog.docker.com/2016/04/docker-engine-1-11-runc/, https://docs.docker.com/engine/understanding-docker/
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{images/docker-daemon-runc.jpg}
-  \caption{Docker Daemon}
+  \includegraphics[width=0.8\textwidth]{images/docker-daemon.png}
+  \caption{Docker Daemon\cite{docker:ud}}
 \end{figure}
 
 \noindent Wird zum Beispiel das Kommando \code{docker run -i -t ubuntu} ausgeführt, checkt die Docker Engine, ob das Ubuntu Image sich bereits auf dem System befindet. Ist das nicht der Fall wird das Image aus der Docker Registry gepullt und auf die Festplatte geladen. Daraus wird der Container erstellt, indem dem Image ein R/W Layer hinzugefügt wird. Danach wird das Netzwerk entsprechend konfiguriert, damit der Docker Container mit dem Host-System kommunizieren kann und dem Container wird eine IP-Adresse zugewiesen, über die der Container erreichbar ist. Zum Schluss werden die definierten Kommandos aus dem Dockerfile ausgeführt und man kann (durch das \code{-i} Flag) über das Terminal mit dem Container interagieren.
