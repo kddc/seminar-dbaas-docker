@@ -19,6 +19,7 @@
 \definecolor{dockerBlue}{HTML}{0972aa}
 
 \setbeamercolor{frametitle}{bg=dockerBlue}
+\setbeamercolor{background canvas}{bg=white}
 
 \usepackage{biblatex}
 \usepackage{filecontents}
@@ -31,7 +32,7 @@
 % \date{\today}
 \date{}
 \author{Julian Tiemann}
-\institute{Universität Hamburg}
+\institute{Universit\"at Hamburg}
 % \titlegraphic{\hfill\includegraphics[height=1.5cm]{logo.pdf}}
 
 \begin{document}
@@ -45,74 +46,96 @@
 
 \section{Einleitung}
 
-\begin{frame}[fragile]{Einleitung}
-
-  Einleitung
-
-\end{frame}
+% \begin{frame}[fragile]{Einleitung}
+%
+%   Einleitung
+%
+% \end{frame}
 
 \section{Virtuelle Machinen}
 
-\begin{frame}[fragile]{Virtual Machine}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.33\textwidth}
-      \begin{itemize}
-        \item Bla Bla Bla 1
-        \item Bla Bla Bla 2
-        \item Bla Bla Bla 3
-      \end{itemize}
-    \column{0.66\textwidth}
-      \includegraphics[width=1\textwidth]{../images/1-docker-vm.png}
-  \end{columns}
+\begin{frame}{Virtuelle Maschine}
+  \center
+  \includegraphics[width=0.7\textwidth]{../images/1-docker-vm.png}
+  \phantom{\cite{docker}}
+  % \begin{columns}[T,onlytextwidth]
+  %   \column{0.33\textwidth}
+  %     \begin{itemize}
+  %       \item Bla Bla Bla 1
+  %       \item Bla Bla Bla 2
+  %       \item Bla Bla Bla 3
+  %     \end{itemize}
+  %   \column{0.66\textwidth}
+  % \end{columns}
 \end{frame}
 
 \begin{frame}{Hypervisors}
   \includegraphics[width=1\textwidth]{../images/2-hypervisors.png}
+  \phantom{\cite{wiki:hyper}}
 \end{frame}
 
 \section{Container}
 
-\begin{frame}{Container Typen}
-  \includegraphics[width=1\textwidth]{../images/4-os-specialized-containers.png}
-  \includegraphics[width=1\textwidth]{../images/5-application-container.png}
-\end{frame}
-
 \begin{frame}{Container vs VM}
   \includegraphics[width=1\textwidth]{../images/6-container-vm.png}
+  \phantom{\cite{docker}}
+\end{frame}
+
+\begin{frame}{OS Container}
+  \includegraphics[width=1\textwidth]{../images/4-os-specialized-containers.png}
+  \phantom{\cite{docvsac}}
+\end{frame}
+
+\begin{frame}{Application Container}
+  \center
+  \includegraphics[width=0.7\textwidth]{../images/5-application-container.png}
+  \phantom{\cite{ocvsac}}
 \end{frame}
 
 \begin{frame}{Container und VMs kombiniert}
-  \includegraphics[width=1\textwidth]{../images/7-container-vm-combined.jpg}
+  \center
+  \includegraphics[width=0.8\textwidth]{../images/7-container-vm-combined.jpg}
+  \phantom{\cite{docker:cavm}}
 \end{frame}
 
 \section{Docker}
 
 \begin{frame}{Docker Engine}
-  \includegraphics[width=1\textwidth]{../images/8-docker-engine.png}
+  \center
+  \includegraphics[width=0.8\textwidth]{../images/8-docker-engine.png}
+  \phantom{\cite{docker:ud}}
 \end{frame}
 
 \begin{frame}{Docker Images}
-  \includegraphics[width=1\textwidth]{../images/9-docker-image.png}
+  \center
+  \includegraphics[width=0.8\textwidth]{../images/9-docker-image.png}
+  \phantom{\cite{7158965}}
 \end{frame}
 
 \begin{frame}{Docker Image Layer Sharing}
   \includegraphics[width=1\textwidth]{../images/10-docker-image-layer-sharing.png}
+  \phantom{\cite{docker:images}}
 \end{frame}
 
 \begin{frame}{Docker Container}
-  \includegraphics[width=1\textwidth]{../images/11-docker-container.png}
+  \center
+  \includegraphics[width=0.9\textwidth]{../images/11-docker-container.png}
+  \phantom{\cite{docker:images}}
 \end{frame}
 
 \begin{frame}{Docker Daemon}
   \includegraphics[width=1\textwidth]{../images/12-docker-daemon.png}
+  \phantom{\cite{docker:ud}}
 \end{frame}
 
-\section{Fazit}
+\section{Demo}
 
-\begin{frame}{Fragen}
+\section{Ausblick}
 
-  Fragen?
-  \includegraphics[width=1\textwidth]{../images/14-docker-swarm-hero2.png}
+\begin{frame}{Fragen?}
+  % Fragen?
+  \center
+  \includegraphics[width=0.6\textwidth]{../images/14-docker-swarm-hero2.png}
 
 \end{frame}
 
