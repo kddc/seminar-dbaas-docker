@@ -44,7 +44,7 @@
   \tableofcontents[hideallsubsections]
 \end{frame}
 
-\section{Einleitung}
+% \section{Einleitung}
 
 % \begin{frame}[fragile]{Einleitung}
 %
@@ -52,50 +52,49 @@
 %
 % \end{frame}
 
-\section{Virtuelle Machinen}
+\section{Virtuelle Maschinen}
 
-\begin{frame}{Virtuelle Maschine}
+\begin{frame}{Virtuelle Maschinen}
   \center
   \includegraphics[width=0.7\textwidth]{../images/1-docker-vm.png}
   \phantom{\cite{docker}}
-  % \begin{columns}[T,onlytextwidth]
-  %   \column{0.33\textwidth}
-  %     \begin{itemize}
-  %       \item Bla Bla Bla 1
-  %       \item Bla Bla Bla 2
-  %       \item Bla Bla Bla 3
-  %     \end{itemize}
-  %   \column{0.66\textwidth}
-  % \end{columns}
-\end{frame}
-
-\begin{frame}{Hypervisors}
-  \includegraphics[width=1\textwidth]{../images/2-hypervisors.png}
-  \phantom{\cite{wiki:hyper}}
 \end{frame}
 
 \section{Container}
 
-\begin{frame}{Container vs VM}
+\begin{frame}{VM vs Container}
   \includegraphics[width=1\textwidth]{../images/6-container-vm.png}
   \phantom{\cite{docker}}
+\end{frame}
+
+\begin{frame}{Funktionsweise}
+  \begin{itemize}
+    \item Change root (chroot)\\
+          Anwendung auf Verzeichnis "rooten"
+    \item Controlgroups (cgroups)\\
+          Ressourcenmanagement
+    \item Kernel Namespaces\\
+          Prozesse/Prozessgruppen voneinander isolieren zB. net f\"ur eigene Netzwerkkonfiguration, ipc f\"ur "Inter-Process Communications"
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{OS Container}
   \includegraphics[width=1\textwidth]{../images/4-os-specialized-containers.png}
   \phantom{\cite{docvsac}}
+  \begin{itemize}
+    \item Leichtgewichtige VMs
+    \item Nutzung wie normales OS
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Application Container}
   \center
   \includegraphics[width=0.7\textwidth]{../images/5-application-container.png}
   \phantom{\cite{ocvsac}}
-\end{frame}
-
-\begin{frame}{Container und VMs kombiniert}
-  \center
-  \includegraphics[width=0.8\textwidth]{../images/7-container-vm-combined.jpg}
-  \phantom{\cite{docker:cavm}}
+  \begin{itemize}
+    \item Transportf\"ahiges Paket mit allen Abh\"angigkeiten
+    \item Enth\"alt meist mehrere vorkonfigurierte Layer
+  \end{itemize}
 \end{frame}
 
 \section{Docker}
@@ -110,6 +109,12 @@
   \center
   \includegraphics[width=0.8\textwidth]{../images/9-docker-image.png}
   \phantom{\cite{7158965}}
+\end{frame}
+
+\begin{frame}{Union View}
+  \center
+  \includegraphics[width=1\textwidth]{../images/union.png}
+  \phantom{\cite{docker:aufs}}
 \end{frame}
 
 \begin{frame}{Docker Image Layer Sharing}
@@ -130,13 +135,17 @@
 
 \section{Demo}
 
-\section{Ausblick}
-
 \begin{frame}{Fragen?}
   % Fragen?
   \center
   \includegraphics[width=0.6\textwidth]{../images/14-docker-swarm-hero2.png}
 
+\end{frame}
+
+\begin{frame}{Container und VMs kombiniert}
+  \center
+  \includegraphics[width=0.8\textwidth]{../images/7-container-vm-combined.jpg}
+  \phantom{\cite{docker:cavm}}
 \end{frame}
 
 \appendix
