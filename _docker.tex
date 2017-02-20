@@ -37,15 +37,21 @@ Die Client-Server Architektur ermöglicht es einerseits Client und Daemon auf ve
 
 \section{Images und Container}
 
-Ein Docker Container wird auf Basis eines Docker Images gebaut. Jedes Docker Image besteht aus mehreren Layern, einem Base Image und welchen, die das Image jeweils um Funktionen erweitern, die für das Ausführen einer Applikation wichtig sind. Die Layer liegen dabei in jeweils eigenen Verzeichnissen und werden über ein “unified view” zu einem einzelnen Image zusammengefasst. Ein “unified view” kann als virtuelles Verzeichnis gesehen werden, in dem die einzelnen Layer so übereinandergelegt werden, dass die verschiedenen Layer von oben als einzelnes Image gelesen werden können. Existiert in einem Layer die gleiche Datei wie in dem Base Image mit einer anderen Konfiguration, so verdeckt diese die Datei aus dem Base Image.\\
-
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.6\textwidth]{images/9-docker-image.png}
   \caption{Ein Image bestehend aus mehreren übereinandergestapelten Layern \cite{7158965}}
 \end{figure}
 
-Die einzelnen Layer in einem Image sind nur lesbar, können also nicht mehr verändert werden. So können die Layer von beliebig vielen Images verwendet werden. Jeder Layer hat einen eindeutigen Hash und kann gezielt von verschiedenen Images verwendet werden und es kann sichergestellt werden, dass der Layer immer genau gleich ist. Das bedeutet, dass der Layer nur ein einziges Mal im Dateisystem gespeichert werden muss. Über die “unified view” werden die Layer anschließend in den Images verwendet. So können die Layer von beliebig vielen Images verwendet werden bei konstantem Platzverbrauch. Jede Änderung an einem Image fügt dem Image einen Layer hinzu. Jeder Layer steht dabei für Unterschiede im Dateisystem im Bezug auf die übrigen Layer. Das können nur einzelne Konfigurationsdateien sein, sodass die Größe des Layers nur wenige Bytes beträgt, aber auch ganze Programmpakete, die deutlich mehr Platz benötigen.\\
+Ein Docker Container wird auf Basis eines Docker Images gebaut. Jedes Docker Image besteht aus mehreren Layern, einem Base Image und welchen, die das Image jeweils um Funktionen erweitern, die für das Ausführen einer Applikation wichtig sind. Die Layer liegen dabei in jeweils eigenen Verzeichnissen und werden über ein “Union View” zu einem einzelnen Image zusammengefasst. Ein “Union View” kann als virtuelles Verzeichnis gesehen werden, in dem die einzelnen Layer so übereinandergelegt werden, dass die verschiedenen Layer von oben als einzelnes Image gelesen werden können. Existiert in einem Layer die gleiche Datei wie in dem Base Image mit einer anderen Konfiguration, so verdeckt diese die Datei aus dem Base Image.\\
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=1\textwidth]{images/union.png}
+  \caption{Verschiedene Layer und der Union View \cite{docker:aufs}}
+\end{figure}
+
+Die einzelnen Layer in einem Image sind nur lesbar, können also nicht mehr verändert werden. So können die Layer von beliebig vielen Images verwendet werden. Jeder Layer hat einen eindeutigen Hash und kann gezielt von verschiedenen Images verwendet werden und es kann sichergestellt werden, dass der Layer immer genau gleich ist. Das bedeutet, dass der Layer nur ein einziges Mal im Dateisystem gespeichert werden muss. Über die “Union View” werden die Layer anschließend in den Images verwendet. So können die Layer von beliebig vielen Images verwendet werden bei konstantem Platzverbrauch. Jede Änderung an einem Image fügt dem Image einen Layer hinzu. Jeder Layer steht dabei für Unterschiede im Dateisystem im Bezug auf die übrigen Layer. Das können nur einzelne Konfigurationsdateien sein, sodass die Größe des Layers nur wenige Bytes beträgt, aber auch ganze Programmpakete, die deutlich mehr Platz benötigen.\\
 
 \begin{figure}[!ht]
   \centering
@@ -53,7 +59,7 @@ Die einzelnen Layer in einem Image sind nur lesbar, können also nicht mehr ver�
   \caption{Ein Image mit neuem Layer, dass die ursprünglichen Layer mit verwendet \cite{docker:images}}
 \end{figure}
 
-Bei der Erstellung eines Containers aus einem Image wird nach dem gleichen Prinzip dem ursprünglichen Image nun ein “Container-Layer” hinzugefügt, der im Gegensatz zu den übrigen beschreibbar ist. Ist der Container gestartet, werden alle Dateiänderungen in den diesen Layer geschrieben. Dafür ist neben dem “Unified View” ist noch ein weiteres Verfahren, das “copy-on-write” Verfahren wichtig. Während die Container laufen, arbeiten beliebig viele Container mit den gleichen Original-Dateien aus dem jeweiligen Layern. Da diese nur gelesen werden können, können diese entsprechend nicht von den jeweiligen Containern modifiziert werden. Deshalb werden diese Dateien, sobald sie verändert werden sollen aus dem jeweiligen Read-Only Layer in den Container-Layer kopiert, wo sie entsprechend bearbeitet werden können.
+Bei der Erstellung eines Containers aus einem Image wird nach dem gleichen Prinzip dem ursprünglichen Image nun ein “Container-Layer” hinzugefügt, der im Gegensatz zu den übrigen beschreibbar ist. Ist der Container gestartet, werden alle Dateiänderungen in den diesen Layer geschrieben. Dafür ist neben dem “Union View” ist noch ein weiteres Verfahren, das “copy-on-write” Verfahren wichtig. Während die Container laufen, arbeiten beliebig viele Container mit den gleichen Original-Dateien aus dem jeweiligen Layern. Da diese nur gelesen werden können, können diese entsprechend nicht von den jeweiligen Containern modifiziert werden. Deshalb werden diese Dateien, sobald sie verändert werden sollen aus dem jeweiligen Read-Only Layer in den Container-Layer kopiert, wo sie entsprechend bearbeitet werden können.
 Der Container, der die Datei bearbeitet hat arbeitet danach mit seiner Kopie im Container-Layer, während die übrigen Container weiter mit dem Original arbeiten. Dadurch können beliebig viele Container platzsparend zur gleichen Zeit laufen \cite{docker:images}.\\
 
 \begin{figure}[!ht]
@@ -62,7 +68,7 @@ Der Container, der die Datei bearbeitet hat arbeitet danach mit seiner Kopie im 
   \caption{Ein Container, bestehend aus R/O Image Layern und R/W Container Layer \cite{docker:images}}
 \end{figure}
 
-Gesteuert werden sowohl der “Unified View” als auch “Copy-on-Write” von verschiedenen “Storage-Drivern”, die zwar unterschiedlich implementiert sind, aber auf dem gleichen Prinzip beruhen. Bei der Konfiguration von Docker, kann man zwischen verschieden Implementierungen wählen. Die bekanntesten sind wohl “auFS” und “overlayFS”.
+Gesteuert werden sowohl der “Union View” als auch “Copy-on-Write” von verschiedenen “Storage-Drivern”, die zwar unterschiedlich implementiert sind, aber auf dem gleichen Prinzip beruhen. Bei der Konfiguration von Docker, kann man zwischen verschieden Implementierungen wählen. Die bekanntesten sind wohl “auFS” und “overlayFS”.
 
 \paragraph{}
 Beim Löschen  eines Containers werden auch alle Dateien, die beim Ausführen der Applikation erstellt wurden, gelöscht. Für das Persistieren von Daten gibt es die Möglichkeit, die Container mit sogenannten Data-Volumes zu verbinden.
