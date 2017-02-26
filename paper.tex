@@ -22,7 +22,7 @@
 % Spart manuelles auskommentieren von vielen include-Befehlen;
 % hat keine Auswirkung auf input-Befehle
 % \includeonly{kapitel1}
-
+\let\cleardoublepage=\clearpage
 \begin{document}
 
 % TITELSEITE
@@ -33,13 +33,9 @@
 \frontmatter
 
 % Inhaltsverzeichnis
-
-\begingroup
-\let\cleardoublepage\clearpage
 \tableofcontents
 % \listoffigures
 % \listoftables
-\endgroup
 
 % Hauptteil einleiten --> Seitennummerierung wieder arabisch
 \mainmatter

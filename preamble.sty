@@ -55,6 +55,13 @@
 	% auch für Index- und Kapitelseiten benutzen.
 	\renewcommand*{\chapterpagestyle}{scrheadings}
 	\renewcommand*{\indexpagestyle}{scrheadings}
+	
+	\makeatletter
+	\renewcommand\mainmatter{%
+	     \clearpage
+	   \@mainmattertrue
+	   \pagenumbering{arabic}}
+	\makeatother
 
 	% Leere Seiten erzeugt durch cleardoublepage sollen auch
 	% den Seitenstil 'scrheadings' benutzen (Koma-Guide: 'Vakatseiten').
