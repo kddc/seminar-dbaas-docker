@@ -1,29 +1,31 @@
-\chapter{Fallbeispiel}
+\chapter{Beispiel}
 
-\begin{figure}[!ht]
-  \centering
-  \sourcecode{src/Dockerfile2}
-  \caption{Ein Dockerfile}\label{figure:Dockerfile}
-\end{figure}
-
-Workdir wird mit in container geladen und kann ausgeführt werden, lokal volume sodass man app entwickeln kann
+Im Folgenden werde ich an einem Beispiel zeigen, wie man eine Anwendung lokal entwickeln und später auf einem Server ausführen kann. Dazu werden eine lokale Maschine und ein Server benötigt, auf denen Docker inklusive Docker Compose installiert ist. Docker Compose ist ein Tool, dass es ermöglicht Multi-Container Anwendungen in einer Datei zu definieren und später mit einem einzelnen Befehl zu starten. Besteht eine Anwendung also aus mehreren Containern, so können all diese Container mit Docker Compose gleichzeitig gestartet werden und es kann definiert werden welcher Container zu welchen Netzwerk gehört oder welcher Container von welchem abhängig ist. Bei dem Beispiel handelt es sich um eine einfache Rails Anwendung, die auf zwei Container aufgeteilt ist. Ein Container für die Anwendung selbst und einer für die Datenbank.\\
 
 \begin{figure}[!ht]
   \centering
   \sourcecode{src/docker-compose.dev.yml}
-  \caption{Docker-Compose Development}\label{figure:docker-compose development}
+  \caption{docker-compose.yml auf einer lokalen Maschine}\label{figure:docker-compose development}
 \end{figure}
 
-Baut images db und web, db aus iamge, web nach Anleitung aus Dockerfile.
-docker-compose up baut images und spawnt container
+\noindent In der \code{docker-compose.dev.yml} wird definiert, wie die Container auf der lokalen Maschine ausgeführt werden sollen. Die Anwenung läuft mit Hilfe von zwei Containern, "{}db"{} und "{}web"{}. Der "{}db"{}-Container wird auf Basis eines postgres Images gebaut und wird mit einem Volume für die Persistierung der Daten gestartet. Dabei wird das \code{./postgres} Verzeichnis des Hosts in das \code{/var/lib/postgresql/data} Verzeichnis des Containers gemounted. Der "{}web"{}-Container hingegen wird aufgrund des \code{build .} auf Basis eines Dockerfiles gebaut, welches im gleichen Verzeichnis liegt. Mit \code{command} kann definiert werden, welche Befehl beim Starten des Containers ausgeführt werden soll. Da der Quellcode normalerweise auf dem Hostsystem selbst verändert wird und so nur beim Erstellen eines neuen Images aktualisiert wird, wird der gesamte Quellcode als Volume mit in den "{}web"{}-Container gemounted. So können Änderungen direkt getestet werden.
 
-docker-compose build, docker push kddc/dbaas_web, docker push kddc/dbaas_db
-pusht neuste container in docker registry.
+\begin{figure}[!ht]
+  \centering
+  \sourcecode{src/Dockerfile2}
+  \caption{Das Dockerfile für den "{}web"{}-Container}\label{figure:Dockerfile}
+\end{figure}
+
+\noindent Mit dem Dockerfile wird das Image für den "{}web"{}-Container definiert. Jede Zeile bzw. jeder Befehl entspricht dabei einem Layer. Mit \code{WORKDIR} wird das Verzeichnis angegeben, in dem später gearbeitet wird. Es werden zunächst alle benötigten Pakete installiert, die nötig sind, um die Anwendung zu starten und mit \code{ADD . /myapp} wird der Quellcode dem Image hinzugefügt. Dieser kann wie oben beschrieben mit einem Volume überschrieben werden. Ändern sich die Abhängigkeiten, die die Anwendung benötigt, ist es nötig ein neues Image zu bauen, in dem die entsprechenden Pakete installiert sind.\\
+
+\noindent Mit \code{docker-compose up} werden nun die entsprechenden Images gebaut und die Container lokal ausgeführt. Mit \code{docker-compose build} und \code{docker-compose push} werden die Images nur gebaut und an die Docker Registry gepusht, von wo die Images verteilt werden können.\\
+
+\newpage
+
+\noindent Auf dem Server befindet sich eine weitere \code{docker-compose.yml}, die sich sich vor allem darin von der lokalen Version unterscheidet, dass die Container diesmal auf Basis der Images ausgeführt werden, die zuvor lokal erstellt wurden. Dieses Mal werden mit einem \code{docker-compose up}, die entsprechenden Images aus der Registry geladen und die Container auf Basis dieser ausgeführt.
 
 \begin{figure}[!ht]
   \centering
   \sourcecode{src/docker-compose.prod.yml}
-  \caption{Docker-Compose Production}\label{figure:docker-compose production}
+  \caption{Die entsprechende docker-compose.yml auf einem Server}\label{figure:docker-compose production}
 \end{figure}
-
-Auf Server anderes docker-compose script, zieht sich images startet container port 80
